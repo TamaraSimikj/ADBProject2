@@ -7,7 +7,7 @@
 <body>
 <h1>Service List</h1>
 
-<form action="/submit-services" method="get">
+<form method="POST" th:action="@{'/services/{id}' (id = ${id})}">
     <table>
         <thead>
         <tr>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Booking Times</title>
+</head>
+<body>
+<h1>Booking Times</h1>
+
+<form action="/booking-time" method="post">
+    <table>
+        <thead>
+        <tr>
+            <th>Start Time</th>
+            <th>Duration</th>
+            <th>Employee ID</th>
+            <th>Employee Name</th>
+            <th>Employee Surname</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="bookingTime : ${bookingTimes}">
+            <td th:text="${bookingTime.start_time}"></td>
+            <td th:text="${bookingTime.duration}"></td>
+            <td th:text="${bookingTime.employeeuserid}"></td>
+            <td th:text="${bookingTime.e_name}"></td>
+            <td th:text="${bookingTime.surname}"></td>
+            <td>
+                <input type="hidden" name="bookingTimeId" th:value="${bookingTime.id}" />
+                <input type="submit" value="Book" />
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</form>
+
+</body>
+</html>

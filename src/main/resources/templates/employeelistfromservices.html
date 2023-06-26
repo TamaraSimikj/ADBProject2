@@ -10,23 +10,27 @@
 <table>
     <thead>
     <tr>
-        <th>Beauty Center ID</th>
-        <th>Service ID</th>
-        <th>User ID</th>
-        <th>Employee Name</th>
+        <th>Employee ID</th>
+        <th>Name</th>
         <th>Surname</th>
+        <th>Select</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="employee : ${employees}">
-        <td th:text="${employee.bcID}"></td>
-        <td th:text="${employee.id}"></td>
         <td th:text="${employee.userid}"></td>
         <td th:text="${employee.e_name}"></td>
         <td th:text="${employee.surname}"></td>
+        <td>
+            <form action="/booking-times" method="get">
+                <input type="hidden" name="bcId" th:value="${employee.bcid}" />
+                <input type="hidden" name="employeeId" th:value="${employee.userid}" />
+                <input type="hidden" name="services" th:value="${services}" />
+                <button type="submit">Select</button>
+            </form>
+        </td>
     </tr>
     </tbody>
 </table>
-
 </body>
 </html>
