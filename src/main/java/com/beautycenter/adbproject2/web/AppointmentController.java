@@ -36,8 +36,9 @@ public class AppointmentController {
         return "services";
     }
 
-    @GetMapping("/submit-services")
-    public String submitSelectedServices(@RequestParam(name = "selectedServices", required = false) List<Integer> selectedServices) {
+    @PostMapping("/submit-services")
+    public String submitSelectedServices(@RequestParam(name = "selectedServices", required = false) List<Integer> selectedServices,
+                                         @RequestParam(name = "beautyCenterId") int beautyCenterId) {
         // Process the selected services
         if (selectedServices != null && !selectedServices.isEmpty()) {
             // Convert the list of selected service IDs to a query parameter string
@@ -45,20 +46,25 @@ public class AppointmentController {
                     .map(String::valueOf)
                     .collect(Collectors.joining(","));
 
-            // Redirect to a new URL with the selected services as query parameters
-            return "redirect:/process-services?services=" + serviceIds;
+            // Redirect to the employeelistfromservices view with the selected services and beauty center ID as query parameters
+            return "redirect:/employeelistfromservices?services=" + serviceIds + "&beautyCenterId=" + beautyCenterId;
         } else {
             // No services selected, handle the case accordingly
             return "redirect:/services?error";
         }
     }
 
-    @GetMapping("/process-services")
-    public String processSelectedServices(@RequestParam(name = "services") String serviceIds) {
-        // Process the selected services
-        System.out.println("Selected services: " + serviceIds);
+    @GetMapping("/employeelistfromservices")
+    public String getEmployeesForServices(@RequestParam(name = "services") String serviceIds,
+                                          @RequestParam(name = "beautyCenterId") int beautyCenterId,
+                                          Model model) {
+        // Retrieve employees for the selected services and beauty center ID from the database
+        String sql = "SELECT * FROM employeesForServices WHERE bcId = ? AND serviceId IN (" + serviceIds + ")";
+        List<Map<String, Object>> employees = jdbcTemplate.queryForList(sql, beautyCenterId);
 
-        // Redirect or handle the processing result accordingly
-        return "redirect:/services?success";
+        // Add the employees to the model
+        model.addAttribute("employees", employees);
+
+        return "employeelistfromservices";
     }
 }
