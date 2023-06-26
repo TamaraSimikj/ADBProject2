@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Service List</title>
+</head>
+<body>
+<h1>Service List</h1>
+
+<form action="/submit-services" method="get">
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Service Category</th>
+            <th>Value</th>
+            <th>Select</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="service : ${services}">
+            <td th:text="${service.id}"></td>
+            <td th:text="${service.service_category}"></td>
+            <td th:text="${service.value}"></td>
+            <td>
+                <input type="checkbox" name="selectedServices" th:value="${service.id}"/>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <button type="submit">Submit</button>
+</form>
+
+</body>
+</html>

@@ -1,0 +1,26 @@
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Address</th>
+        <th>Number</th>
+        <th>Email</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Iterate over the list of beauty centers -->
+    <tr th:each="beautyCenter : ${beautyCenters}">
+        <td th:text="${beautyCenter.id}"></td>
+        <td th:text="${beautyCenter.address}"></td>
+        <td th:text="${beautyCenter.number}"></td>
+        <td th:text="${beautyCenter.e_mail}"></td>
+        <td>
+            <!-- Add a button that redirects to /services with beautyCenterID as a query parameter -->
+            <a th:href="@{'/services/{id}' (id = ${beautyCenter.id})}">
+                Select
+            </a>
+        </td>
+    </tr>
+    </tbody>
+</table>
