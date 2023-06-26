@@ -35,7 +35,7 @@ public class RegistrationController {
             @RequestParam String email
     )
     {
-        jdbcTemplate.execute(String.format("CALL \"final\".registerNewClient('%s', '%s', '%s', '%s', '%s', '%s');",
+        jdbcTemplate.execute(String.format("SELECT \"final\".registerClient('%s', '%s', '%s', '%s', '%s', '%s');",
                 username,password,cName,surname,phoneNumber,email));
         return "redirect:/home";
     }
