@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Employee Certificates</title>
+</head>
+<body>
+<h1>Employee Certificates</h1>
+
+<table>
+    <thead>
+    <tr>
+        <th>Employee ID</th>
+        <th>Employee Name</th>
+        <th>Certificate ID</th>
+        <th>Certificate Name</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="certificate : ${employeeCertificates}">
+        <td th:text="${certificate.e_id}"></td>
+        <td th:text="${certificate.e_name}"></td>
+        <td th:text="${certificate.certificateid}"></td>
+        <td th:text="${certificate.c_type}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
