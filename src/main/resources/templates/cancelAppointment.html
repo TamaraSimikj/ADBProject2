@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Cancel Appointment</title>
+</head>
+<body>
+<h1>Cancel Appointment</h1>
+<form method="post" th:action="@{'/appointments/' + ${id} + '/cancelAppointment'}">
+  <input type="hidden" name="appointmentId" th:value="${appointmentId}" />
+  <div>
+    <button type="submit">Cancel Appointment</button>
+  </div>
+</form>
+</body>
+</html>

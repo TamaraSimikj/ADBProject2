@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Booking Time</title>
+</head>
+<body>
+<h1>Update Booking Time</h1>
+<form method="post" th:action="@{'/appointments/' + ${id} + '/updateBookingTime'}">
+    <input type="hidden" name="appointmentId" th:value="${appointmentId}" />
+    <div>
+        <label for="bookingTimeId">Booking Time ID:</label>
+        <input type="number" id="bookingTimeId" name="bookingTimeId" required />
+    </div>
+    <div>
+        <button type="submit">Update Booking Time</button>
+    </div>
+</form>
+</body>
+</html>

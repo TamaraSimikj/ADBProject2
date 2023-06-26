@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Booking Time</title>
+</head>
+<body>
+<h1>Add Booking Time</h1>
+<form method="post" th:action="@{/addBookingTime}">
+    <div>
+        <label for="startTime">Start Time (YYYY-MM-DD HH:mm:ss):</label>
+        <input type="text" id="startTime" name="startTime" required />
+    </div>
+    <div>
+        <label for="duration">Duration (in minutes):</label>
+        <input type="number" id="duration" name="duration" min="1" required />
+    </div>
+    <div>
+        <label for="employeeUserId">Employee User ID:</label>
+        <input type="number" id="employeeUserId" name="employeeUserId" required />
+    </div>
+    <div>
+        <button type="submit">Add Booking Time</button>
+    </div>
+</form>
+</body>
+</html>
