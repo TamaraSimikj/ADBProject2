@@ -1,10 +1,78 @@
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Reviews</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--<h1>Reviews</h1>-->
+<!--<table>-->
+<!--    <thead>-->
+<!--    <tr>-->
+<!--        <th>ID</th>-->
+<!--        <th>Rating</th>-->
+<!--        <th>Comment</th>-->
+<!--        <th>Client</th>-->
+<!--        <th>Appointment ID</th>-->
+<!--        <th>Employee</th>-->
+<!--        <th>Service</th>-->
+<!--        <th>Beauty Center</th>-->
+
+<!--    </tr>-->
+<!--    </thead>-->
+<!--    <tbody>-->
+<!--    &lt;!&ndash; Use Thymeleaf's th:each attribute to iterate over the reviews &ndash;&gt;-->
+<!--    <tr th:each="review : ${reviews}">-->
+<!--        <td th:text="${review.id}"></td>-->
+<!--        <td th:text="${review.rating}"></td>-->
+<!--        <td th:text="${review.rev_comment}"></td>-->
+<!--        <td th:text="${review.clientuserid}"></td>-->
+<!--        <td th:text="${review.appointmentId}"></td>-->
+<!--        <td th:text="${review.e_name}"></td>-->
+<!--        <td th:text="${review.service_category}"></td>-->
+<!--        <td th:text="${review.address}"></td>-->
+<!--    </tr>-->
+<!--    </tbody>-->
+<!--</table>-->
+<!--</body>-->
+<!--</html>-->
+
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Reviews</title>
 </head>
 <body>
-
+<h1>Reviews</h1>
+<table>
+    <thead>
+    <tr>
+        <th>Review ID</th>
+        <th>Review Comment</th>
+        <th>Rating</th>
+        <th>Employee ID</th>
+        <th>Employee Name</th>
+        <th>Service ID</th>
+        <th>Service</th>
+        <th>Beauty Center ID</th>
+        <th>Beauty Center Address</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!-- Iterate over the reviewsList -->
+    <tr th:each="review : ${reviewsList}">
+        <td th:text="${review.id}"></td>
+        <td th:text="${review.rev_comment}"></td>
+        <td th:text="${review.rating}"></td>
+        <td th:text="${review.userid}"></td>
+        <td th:text="${review.Employee}"></td>
+        <td th:text="${review.serviceId}"></td>
+        <td th:text="${review.Service}"></td>
+        <td th:text="${review.BeautyCenterID}"></td>
+        <td th:text="${review.address}"></td>
+    </tr>
+    </tbody>
+</table>
 </body>
 </html>

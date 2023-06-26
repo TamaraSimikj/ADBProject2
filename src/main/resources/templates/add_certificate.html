@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Add Certificate</title>
+</head>
+<body>
+<h2>Add Certificate</h2>
+<form action="#" th:action="@{/add_certificate}" method="post">
+    <div>
+        <label for="certificateType">Certificate Type:</label>
+        <input type="text" id="certificateType" name="certificateType" required/>
+    </div>
+    <div>
+        <button type="submit">Add Certificate</button>
+    </div>
+</form>
+</body>
+</html>

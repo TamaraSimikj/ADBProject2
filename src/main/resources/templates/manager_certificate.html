@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Manager Certificate Count</title>
+</head>
+<body>
+<h2>Manager Certificate Count</h2>
+<table>
+  <thead>
+  <tr>
+    <th>Manager ID</th>
+    <th>Manager Name</th>
+    <th>Manager Surname</th>
+    <th>Certificate ID</th>
+    <th>Certificate Type</th>
+    <th>Count</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="row : ${managerCertificates}">
+    <td th:text="${row.m_id}"></td>
+    <td th:text="${row.m_name}"></td>
+    <td th:text="${row.m_surname}"></td>
+    <td th:text="${row.certificateId}"></td>
+    <td th:text="${row.c_type}"></td>
+    <td th:text="${row.count}"></td>
+  </tr>
+  </tbody>
+</table>
+</body>
+</html>

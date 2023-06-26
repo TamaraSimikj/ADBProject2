@@ -69,19 +69,19 @@
     <tbody>
     <!-- Iterate over the appointments -->
     <tr th:each="appointment : ${appointments}">
-        <td th:text="${appointment.appointment_id}"></td>
+        <td th:text="${appointment.id}"></td>
         <td th:text="${appointment.start_time}"></td>
         <td>
             <!-- Check if a review is already submitted for the appointment -->
-            <div th:if="${review.rev_comment != null}">
-                <p>Review: <span th:text="${review.rev_comment}"></span></p>
-                <p>Rating: <span th:text="${review.rating}"></span></p>
+            <div th:if="${appointment.rev_comment != null}">
+                <p>Review: <span th:text="${appointment.rev_comment}"></span></p>
+                <p>Rating: <span th:text="${appointment.rating}"></span></p>
             </div>
-            <div th:unless="${review.rev_comment != null}">
+            <div th:unless="${appointment.rev_comment != null}">
                 <!-- Display a form to submit a review -->
-                <form th:action="@{/appointments/{id}/leave-review}" method="post">
+                <form method="post" th:action="@{'/appointments/{id}' (id = ${appointment.clientuserid})}">
                     <input type="hidden" name="clientId" th:value="${id}" />
-                    <input type="hidden" name="appointmentId" th:value="${appointment.appointment_id}" />
+                    <input type="hidden" name="appointmentId" th:value="${appointment.id}" />
                     <div>
                         <label for="reviewComment">Review Comment:</label>
                         <input type="text" id="reviewComment" name="reviewComment" required />

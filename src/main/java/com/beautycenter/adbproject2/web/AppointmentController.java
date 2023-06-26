@@ -1,5 +1,6 @@
 package com.beautycenter.adbproject2.web;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -105,13 +106,15 @@ public class AppointmentController {
     @GetMapping("/appointments/{id}")
     public String getClientAppointments(@PathVariable int id, Model model) {
 
-        String sql = "SELECT a.id AS appointment_id, a.bookingtimeid, a_s.serviceid, " +
+       // String sql = "SELECT * FROM \"final\".APPOINTMENTS_LIST WHERE ClientID = ?";
+
+        String sql = "SELECT a.id, a.bookingtimeid, a_s.serviceid, a.clientuserid " +
                 "bt.start_time, s.service_category, r.rev_comment, r.rating " +
-                "FROM appointment a " +
-                "JOIN booking_time bt ON a.bookingtimeid = bt.id " +
-                "JOIN appointment_service a_s ON a.id = a_s.appointmentid " +
-                "JOIN service s ON a_s.serviceid = s.id " +
-                "LEFT JOIN review r ON a.id = r.appointmentid " +
+                "FROM \"final\".appointment a " +
+                "JOIN \"final\".booking_time bt ON a.bookingtimeid = bt.id " +
+                "JOIN \"final\".appointment_service a_s ON a.id = a_s.appointmentid " +
+                "JOIN \"final\".service s ON a_s.serviceid = s.id " +
+                "LEFT JOIN \"final\".review r ON a.id = r.appointmentid " +
                 "WHERE a.clientuserid = ? AND bt.start_time>now() " +
                 "ORDER BY bt.start_time DESC";
 
@@ -122,21 +125,46 @@ public class AppointmentController {
 
         return "clientAppointments";
     }
-    @PostMapping("/appointments/{id}/leave-review")
+
+
+    @PostMapping("/appointments/{id}")
     public String leaveReviewForAppointment(@PathVariable int id,
                                             @RequestParam("appointmentId") int appointmentId,
                                             @RequestParam("comment") String rev_comment,
                                             @RequestParam("rating") int rating) {
         try {
             // Call the leave_review function to insert the review into the database
-            String leaveReviewSql = "SELECT leave_review(?, ?, ?, ?)";
+            String leaveReviewSql = "SELECT \"final\".leave_review(?, ?, ?, ?)";
             jdbcTemplate.update(leaveReviewSql, id, appointmentId, rev_comment, rating);
 
-            return "redirect:/appointments/" + id;
+            return "redirect:/reviews";
         } catch (Exception e) {
             return "redirect:/appointments/" + id + "?error";
         }
+    }
 
+//    @GetMapping("/reviews")
+//    public String getReviews(Model model) {
+//
+//        String sql = "SELECT * FROM \"final\".REVIEWS_LIST";
+//        List<Map<String, Object>> reviews = jdbcTemplate.queryForList(sql);
+//        model.addAttribute("reviews", reviews);
+//
+//        return "reviews";
+//    }
 
+    @GetMapping("/reviews")
+    public String getReviews(Model model) {
+        try {
+            String reviewsListSql = "SELECT * FROM \"final\".REVIEWS_LIST LIMIT 100";
+            List<Map<String, Object>> reviewsList = jdbcTemplate.queryForList(reviewsListSql);
+
+            model.addAttribute("reviewsList", reviewsList);
+
+            return "reviews";
+        } catch (Exception e) {
+            return "redirect:/error";
+        }
+    }
 
 }
