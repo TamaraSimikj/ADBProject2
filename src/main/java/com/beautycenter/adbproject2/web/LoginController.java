@@ -1,5 +1,7 @@
 package com.beautycenter.adbproject2.web;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
@@ -20,22 +22,30 @@ public class LoginController {
     @GetMapping("/login")
     public String loginPage(@RequestParam(name = "error", required = false) String error, Model model) {
         if (error != null) {
-            return "login-error";
-        } else {
-            return "login";
+            model.addAttribute("errorMessage", "Invalid username or password. Please try again.");
         }
+        return "login";
     }
 
     @PostMapping("/login")
-    public String login(@RequestParam("username") String username, @RequestParam("password") String password) {
+    public String login(
+            @RequestParam("username") String username,
+            @RequestParam("password") String password,
+            HttpServletRequest request,
+            Model model
+    ) {
         String sql = "SELECT \"final\".loginuser(?,?)";
         boolean isValidUser = jdbcTemplate.queryForObject(sql, Boolean.class, username, password);
 
         if (isValidUser) {
-            // Redirect to the home page or any other authorized page
-            return "redirect:/home";
+            String clientIdSql = "SELECT id FROM \"final\".USERS WHERE username = ?";
+            int clientUserId = jdbcTemplate.queryForObject(clientIdSql, Integer.class, username);
+
+            HttpSession session = request.getSession();
+            session.setAttribute("clientId", clientUserId);
+
+            return "redirect:/home"+clientUserId;
         } else {
-            // Redirect to a login error page or display an error message
             return "redirect:/login?error";
         }
     }

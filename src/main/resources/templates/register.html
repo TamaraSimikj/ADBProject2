@@ -35,5 +35,10 @@
         <button type="submit">Register</button>
     </div>
 </form>
+
+<div th:if="${errorMessage}" style="color: red">
+    <p th:text="${errorMessage}"></p>
+</div>
+
 </body>
 </html>

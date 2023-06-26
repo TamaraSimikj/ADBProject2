@@ -2,23 +2,27 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
+    <title>Login Page</title>
 </head>
 <body>
-<h1>Login</h1>
-
-<form action="/login" method="post">
+<h1>Login Page</h1>
+<form method="post" action="/login">
     <div>
         <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required />
+        <input type="text" id="username" name="username" required/>
     </div>
     <div>
         <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required />
+        <input type="password" id="password" name="password" required/>
     </div>
     <div>
-        <input type="submit" value="Login" />
+        <button type="submit">Login</button>
     </div>
 </form>
+
+<div th:if="${errorMessage}" style="color: red">
+    <p th:text="${errorMessage}"></p>
+</div>
+
 </body>
 </html>
