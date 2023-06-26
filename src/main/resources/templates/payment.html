@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Make Payment</title>
+</head>
+<body>
+<h2>Make Payment</h2>
+
+<form action="/payment" method="post">
+    <div>
+        <label for="typeofpayment">Payment Type:</label>
+        <select name="typeofpayment" id="typeofpayment">
+            <option value="InStore">In Store</option>
+            <option value="Online">Online</option>
+        </select>
+    </div>
+    <div>
+        <label for="card_number">Card Number:</label>
+        <input type="text" name="card_number" id="card_number">
+    </div>
+    <div>
+        <label for="cardholder_name">Cardholder Name:</label>
+        <input type="text" name="cardholder_name" id="cardholder_name">
+    </div>
+    <div>
+        <label for="cvv">CVV:</label>
+        <input type="password" name="cvv" id="cvv">
+    </div>
+    <div>
+        <label for="expiry_date">Expiry Date:</label>
+        <input type="text" name="expiry_date" id="expiry_date">
+    </div>
+    <div>
+        <label for="payment_info">Payment Info:</label>
+        <input type="text" name="payment_info" id="payment_info">
+    </div>
+    <div>
+        <button type="submit">Make Payment</button>
+    </div>
+</form>
+</body>
+</html>
