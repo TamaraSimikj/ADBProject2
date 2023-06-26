@@ -101,7 +101,41 @@ public class AppointmentController {
         return "redirect:/booking-confirmation?bookingTimeId=" + bookingTimeId;
     }
 
+    //Review
+    @GetMapping("/appointments/{id}")
+    public String getClientAppointments(@PathVariable int id, Model model) {
 
+        String sql = "SELECT a.id AS appointment_id, a.bookingtimeid, a_s.serviceid, " +
+                "bt.start_time, s.service_category, r.rev_comment, r.rating " +
+                "FROM appointment a " +
+                "JOIN booking_time bt ON a.bookingtimeid = bt.id " +
+                "JOIN appointment_service a_s ON a.id = a_s.appointmentid " +
+                "JOIN service s ON a_s.serviceid = s.id " +
+                "LEFT JOIN review r ON a.id = r.appointmentid " +
+                "WHERE a.clientuserid = ? AND bt.start_time>now() " +
+                "ORDER BY bt.start_time DESC";
+
+        List<Map<String, Object>> appointments = jdbcTemplate.queryForList(sql, id);
+
+
+        model.addAttribute("appointments", appointments);
+
+        return "clientAppointments";
+    }
+    @PostMapping("/appointments/{id}/leave-review")
+    public String leaveReviewForAppointment(@PathVariable int id,
+                                            @RequestParam("appointmentId") int appointmentId,
+                                            @RequestParam("comment") String rev_comment,
+                                            @RequestParam("rating") int rating) {
+        try {
+            // Call the leave_review function to insert the review into the database
+            String leaveReviewSql = "SELECT leave_review(?, ?, ?, ?)";
+            jdbcTemplate.update(leaveReviewSql, id, appointmentId, rev_comment, rating);
+
+            return "redirect:/appointments/" + id;
+        } catch (Exception e) {
+            return "redirect:/appointments/" + id + "?error";
+        }
 
 
 
