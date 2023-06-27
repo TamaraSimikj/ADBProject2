@@ -9,35 +9,41 @@
 
 <form action="/payment" method="post">
     <div>
-        <label for="typeofpayment">Payment Type:</label>
-        <select name="typeofpayment" id="typeofpayment">
-            <option value="InStore">In Store</option>
-            <option value="Online">Online</option>
+        <label>Payment Type:</label>
+        <select id="typeofpayment"  name="typeofpayment">
+            <option value="inStore">In Store</option>
+            <option value="Online" selected>Online</option>
         </select>
     </div>
     <div>
-        <label for="card_number">Card Number:</label>
-        <input type="text" name="card_number" id="card_number">
+        <label for="cardNumber">Card Number:</label>
+        <input type="text" name="cardNumber" id="cardNumber">
     </div>
     <div>
-        <label for="cardholder_name">Cardholder Name:</label>
-        <input type="text" name="cardholder_name" id="cardholder_name">
+        <label for="cardholderName">Cardholder Name:</label>
+        <input type="text" name="cardholderName" id="cardholderName">
     </div>
     <div>
         <label for="cvv">CVV:</label>
         <input type="password" name="cvv" id="cvv">
     </div>
     <div>
-        <label for="expiry_date">Expiry Date:</label>
-        <input type="text" name="expiry_date" id="expiry_date">
+        <label for="expiryDate">Expiry Date:</label>
+        <input type="text" name="expiryDate" id="expiryDate">
     </div>
     <div>
-        <label for="payment_info">Payment Info:</label>
-        <input type="text" name="payment_info" id="payment_info">
+        <label for="paymentInfo">Payment Info:</label>
+        <input type="text" name="paymentInfo" id="paymentInfo">
     </div>
     <div>
         <button type="submit">Make Payment</button>
     </div>
+    <input type="hidden" name="bcId" th:value="${bcId}" />
+    <input type="hidden" name="employeeId" th:value="${employeeId}" />
+    <input type="hidden" name="serviceIds" th:value="${serviceIds}" />
+    <input type="hidden" name="bookingTimeId" th:value="${bookingTimeId}" />
+    <input type="hidden" name="clientId" th:value="${clientId}" />
+    <input type="hidden" name="typeofpayment" th:value="${typeofpayment}" />
 </form>
 </body>
 </html>

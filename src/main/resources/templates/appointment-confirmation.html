@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Appointment Confirmation</title>
+</head>
+<body>
+<form action="/appointment-confirmation" method="post">
+<h1>Appointment Confirmation</h1>
+
+<p>Client ID: <span th:text="${clientId}"></span></p>
+
+<p>Beauty Center ID: <span th:text="${bcId}"></span></p>
+
+<p>Selected Services:</p>
+<ul>
+    <li th:each="service : ${serviceIds}">
+        <span th:text="${service}"></span></span>
+    </li>
+</ul>
+
+<p>Employee ID: <span th:text="${employeeId}"></span></p>
+
+<p>Booking Time ID: <span th:text="${bookingTimeId}"></span></p>
+
+<p>Cardholder Name: <span th:text="${cardholderName}"></span></p>
+<p>Card number: <span th:text="${cardNumber}"></span></p>
+
+
+<input type="hidden" name="expiryDate" th:value="${expiryDate}" />
+<input type="hidden" name="typeofpayment" th:text="${typeofpayment}"/>
+    <input type="hidden" name="clientId" th:value="${clientId}" />
+    <input type="hidden" name="bookingTimeId" th:value="${bookingTimeId}" />
+    <input type="hidden" name="serviceIds" th:value="${serviceIds}" />
+    <input type="hidden" name="employeeId" th:value="${employeeId}" />
+    <input type="hidden" name="cardholderName" th:value="${cardholderName}" />
+    <input type="hidden" name="cardNumber" th:value="${cardNumber}" />
+    <input type="hidden" name="bcId" th:value="${bcId}" />
+    <input type="hidden" name="cvv" th:value="${cvv}" />
+    <input type="hidden" name="paymentInfo" th:value="${paymentInfo}" />
+
+    <button type="submit">Confirm</button>
+</form>
+</body>
+</html>

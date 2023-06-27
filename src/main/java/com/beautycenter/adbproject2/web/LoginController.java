@@ -44,7 +44,7 @@ public class LoginController {
             HttpSession session = request.getSession();
             session.setAttribute("clientId", clientUserId);
 
-            return "redirect:/home"+clientUserId;
+            return "redirect:/home";
         } else {
             return "redirect:/login?error";
         }
