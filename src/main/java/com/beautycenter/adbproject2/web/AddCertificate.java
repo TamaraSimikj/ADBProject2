@@ -33,7 +33,7 @@ public class AddCertificate {
                                  HttpServletRequest request) {
         HttpSession session = request.getSession();
 
-        // Check if the logged-in user is an employee
+        // Check if the logged-in user is a manager
 
         Integer loggedEmployeeId = (Integer) session.getAttribute("clientId");
         if (loggedEmployeeId == null) {
@@ -52,6 +52,45 @@ public class AddCertificate {
 
 
         return "redirect:/manager_certificate";
+    }
+
+    @GetMapping("/add_certificate_employee")
+    public String addCertificateEmployee(Model model) {
+
+        String sql = "SELECT * FROM \"final\".employee";
+        List<Map<String,Object>> employees =jdbcTemplate.queryForList(sql);
+        model.addAttribute("employees", employees);
+        return "add_certificate_employee";
+    }
+
+    @PostMapping("/add_certificate_employee")
+    public String getCertificateEmployee(@RequestParam("employeeId") int employeeId,
+                                         @RequestParam("certificateId") int certificateId,
+                                         HttpServletRequest request) {
+
+        HttpSession session = request.getSession();
+
+        // Check if the logged-in user is an employee
+
+        Integer loggedEmployeeId = (Integer) session.getAttribute("clientId");
+        if (loggedEmployeeId == null) {
+            return "redirect:/login"; // Redirect to login page if user is not logged in
+        }
+
+        String checkEmployeeSql = "SELECT COUNT(*) FROM \"final\".MANAGER WHERE employeeuserid = ?";
+
+        int count = jdbcTemplate.queryForObject(checkEmployeeSql, Integer.class, loggedEmployeeId);
+        if (count == 0) {
+            return "redirect:/login"; // Redirect to access denied page if user is not an employee
+        }
+
+
+
+        jdbcTemplate.execute(String.format("SELECT \"final\".add_certificate_employee('%s', '%s');",
+               employeeId, certificateId));
+
+
+        return "redirect:/employee_certificates";
     }
 
 }

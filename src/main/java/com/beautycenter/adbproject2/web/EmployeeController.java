@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,6 +23,11 @@ public class EmployeeController {
     }
 
 
+    @GetMapping("/addBookingTime")
+    public String addBookingTime(){
+        return "addBookingTime";
+    }
+
     //Employee opens booking time so proverka dali logiraniot e employee ili ne
     @PostMapping("/addBookingTime")
     public String addBookingTime(@RequestParam("startTime") String startTime,
@@ -34,23 +40,26 @@ public class EmployeeController {
 
             // Check if the logged-in user is an employee
             HttpSession session = request.getSession();
-            Integer loggedEmployeeId = (Integer) session.getAttribute("employeeId");
+            Integer loggedEmployeeId = (int) session.getAttribute("employeeId");
             if (loggedEmployeeId == null) {
                 return "redirect:/login"; // Redirect to login page if user is not logged in
             }
 
-            String checkEmployeeSql = "SELECT COUNT(*) FROM \"final\".EMPLOYEES WHERE id = ?";
+            String checkEmployeeSql = "SELECT COUNT(*) FROM \"final\".EMPLOYEE WHERE id = ?";
 
             int count = jdbcTemplate.queryForObject(checkEmployeeSql, Integer.class, loggedEmployeeId);
             if (count == 0) {
-                return "redirect:/access-denied"; // Redirect to access denied page if user is not an employee
+                return "redirect:/login"; // Redirect to access denied page if user is not an employee
             }
 
-            String addBookingTimeSql = "SELECT \"final\".addbookingtime(?, ?, ?)";
+//            String addBookingTimeSql = "SELECT \"final\".addbookingtime(?, ?, ?)";
+//
+//            int bookingTimeId = jdbcTemplate.queryForObject(addBookingTimeSql, Integer.class, parsedStartTime, duration, employeeUserId);
 
-            int bookingTimeId = jdbcTemplate.queryForObject(addBookingTimeSql, Integer.class, parsedStartTime, duration, employeeUserId);
+            jdbcTemplate.execute(String.format("SELECT \"final\".addbookingtime('%s', '%s', '%s');",
+                    parsedStartTime, duration, employeeUserId));
 
-            return "redirect:/booking-times/" + bookingTimeId;
+            return "redirect:/booking-times/";
         } catch (Exception e) {
             return "redirect:/booking-times?error";
         }

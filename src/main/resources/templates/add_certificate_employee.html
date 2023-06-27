@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <!-- Head content goes here -->
+</head>
+<body>
+<h2>Add Certificate for Employee</h2>
+<form th:action="@{/add_certificate}" method="post">
+  <div>
+    <label for="employeeId">Employee ID:</label>
+    <select id="employeeId" name="employeeId">
+      <option th:each="employee : ${employees}" th:value="${employee.userid}" th:text="${employee.e_name}"></option>
+    </select>
+  </div>
+  <div>
+    <label for="certificateId">Certificate ID:</label>
+    <input type="text" id="certificateId" name="certificateId">
+    <input type="hidden" name="certificateType"/>
+  </div>
+  <button type="submit">Add Certificate</button>
+</form>
+</body>
+</html>
