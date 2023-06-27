@@ -174,6 +174,38 @@ public class AppointmentController {
 
 
 
+//    @PostMapping("/appointment-confirmation")
+//    public String bookingConfirmation(
+//            @RequestParam(name = "clientId") int clientUserId,
+//            @RequestParam("bookingTimeId") int bookingTimeId,
+//            @RequestParam("employeeId") int employeeId,
+//            @RequestParam("serviceIds") String serviceIds,
+//            @RequestParam("typeofpayment") String typeofpayment,
+//            @RequestParam(name = "cardholderName", required = false) String cardholderName,
+//            @RequestParam(name = "cardNumber", required = false) String cardNumber,
+//            @RequestParam(name = "cvv", required = false) String cvv,
+//            @RequestParam(name = "expiryDate", required = false) String expiryDate,
+//            @RequestParam(name = "paymentInfo", required = false) String paymentInfo
+//    ) {
+//
+//        List<Integer> serviceIdList = Arrays.stream(serviceIds.split(","))
+//                .map(Integer::valueOf)
+//                .collect(Collectors.toList());
+//
+//        try {
+//            if (typeofpayment.isEmpty()) {
+//                typeofpayment = "Online";
+//            }
+//
+//            String arrayLiteral = "{" + String.join(",", serviceIdList.stream().map(Object::toString).toArray(String[]::new)) +"}";
+//            jdbcTemplate.execute(String.format("CALL \"final\".make_appointment('%s', '%s', '%s', ARRAY%s, '%s', '%s', '%s', '%s', '%s', '%s');",
+//                    clientUserId, bookingTimeId, employeeId, serviceIdList, typeofpayment, cardNumber, cardholderName, cvv, expiryDate, paymentInfo));
+//            return "redirect:/home";
+//        } catch (Exception e) {
+//            return "redirect:/home?error";
+//        }
+//    }
+
     @PostMapping("/appointment-confirmation")
     public String bookingConfirmation(
             @RequestParam(name = "clientId") int clientUserId,
@@ -188,23 +220,34 @@ public class AppointmentController {
             @RequestParam(name = "paymentInfo", required = false) String paymentInfo
     ) {
 
-        List<Integer> serviceIdList = Arrays.stream(serviceIds.split(","))
+        Integer[] serviceIdArray = Arrays.stream(serviceIds.split(","))
                 .map(Integer::valueOf)
-                .collect(Collectors.toList());
+                .toArray(Integer[]::new);
 
         try {
-            if (typeofpayment.isEmpty()) {
-                typeofpayment = "Online";
+            if (typeofpayment.isEmpty() && cardNumber.isEmpty()) {
+                typeofpayment = "InStore";
+            }else if(typeofpayment.isEmpty() && !cardNumber.isEmpty()){
+                typeofpayment= "Online";
             }
 
-            String arrayLiteral = "{" + String.join(",", serviceIdList.stream().map(Object::toString).toArray(String[]::new)) +"}";
-            jdbcTemplate.execute(String.format("CALL \"final\".make_appointment('%s', '%s', '%s', ARRAY%s, '%s', '%s', '%s', '%s', '%s', '%s');",
-                    clientUserId, bookingTimeId, employeeId, serviceIdList, typeofpayment, cardNumber, cardholderName, cvv, expiryDate, paymentInfo));
+            if (typeofpayment.equals("Online")) {
+                jdbcTemplate.execute(String.format("CALL \"final\".make_appointment('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s');",
+                        clientUserId, bookingTimeId, employeeId, serviceIdArray, typeofpayment, cardNumber, cardholderName, cvv, expiryDate, paymentInfo));
+            } else if (typeofpayment.equals("InStore")) {
+                jdbcTemplate.execute(String.format("CALL \"final\".make_appointment('%s', '%s', '%s', '%s', '%s', NULL, NULL, NULL, NULL, NULL);",
+                        clientUserId, bookingTimeId, employeeId, serviceIdArray, typeofpayment));
+            } else {
+                // Handle invalid payment type
+                return "redirect:/home?error";
+            }
+
             return "redirect:/home";
         } catch (Exception e) {
             return "redirect:/home?error";
         }
     }
+
 
 
 
