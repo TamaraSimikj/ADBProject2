@@ -2,17 +2,31 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Home</title>
+    <title>My Beauty Center</title>
 </head>
 <body>
-<h1>BeautyCenter</h1>
-<table>
-    <div>
-        <a th:href="@{/appointments}">My appointments</a>
-        <a th:href="@{/resales}">Resell Listings</a>
-        <a th:href="@{/freeBookingTimes}">Available booking Times</a>
-        <a th:href="@{/beautycenters}">Beauty Centers locations</a>
-    </div>
-</table>
+<div class="navbar">
+    <a th:href="@{/register}">REGISTER NOW</a>
+    <a th:href="@{/login}">Log in</a>
+    <a th:href="@{/clientAppointments}">My Appointments</a>
+    <a th:href="@{/reviews}">Reviews</a>
+    <a th:href="@{/beautycenters}">Make an Appointment!</a>
+    <a th:href="@{/freeBookingTimes}">Available Booking Times</a>
+    <a th:href="@{/beautycenters}">Beauty Centers Locations</a>
+</div>
+
+<h1>Welcome to My Beauty Center</h1>
+
+<div class="reviews-box">
+    <h2>Reviews</h2>
+    <p>Review 1</p>
+    <p>Review 2</p>
+    <p>Review 3</p>
+    <!-- Add more reviews here -->
+</div>
+
+<div class="footer">
+    <p>My Beauty Center &copy; 2023. All rights reserved.</p>
+</div>
 </body>
 </html>
